@@ -10,13 +10,13 @@ It was developed for the analysis of ~200 Thlaspi arvense WGS samples.
 WORKFLOW DESCRIPTION:
 
 [0_multi_trim_BinAC.sh](https://github.com/Dario-Galanti/BinAC_varcalling/blob/main/0_multi_trim_BinAC.sh) <br/>
-Adaptors trimming with [cutadapt](https://cutadapt.readthedocs.io/en/stable/).
+Sample-parallelized adaptors trimming with [cutadapt](https://cutadapt.readthedocs.io/en/stable/).
 
 [1_BWA_multi_align_BinAC.sh](https://github.com/Dario-Galanti/BinAC_varcalling/blob/main/1_BWA_multi_align_BinAC.sh) <br/>
-Single-sample read alignment with [bwa-mem](http://bio-bwa.sourceforge.net/bwa.shtml) and detection of duplicates with [MarkDuplicatesSpark](https://gatk.broadinstitute.org/hc/en-us/articles/360046221811-MarkDuplicatesSpark).
+Sample-parallelized read alignment with [bwa-mem](http://bio-bwa.sourceforge.net/bwa.shtml) and detection of duplicates with [MarkDuplicatesSpark](https://gatk.broadinstitute.org/hc/en-us/articles/360046221811-MarkDuplicatesSpark).
 
 [2_HaploCaller_multi_BinAC.sh](https://github.com/Dario-Galanti/BinAC_varcalling/blob/main/2_HaploCaller_multi_BinAC.sh) <br/>
-Single-sample variant calling with local reassembly ([Haplotypecaller](https://gatk.broadinstitute.org/hc/en-us/articles/360036715891-HaplotypeCaller)) to obtain single-sample GVCF files.
+Sample-parallelized variant calling with local reassembly ([Haplotypecaller](https://gatk.broadinstitute.org/hc/en-us/articles/360036715891-HaplotypeCaller)) to obtain single-sample GVCF files.
 
 [3_4_GenDB_GenoGVCFs_BinAC.sh](https://github.com/Dario-Galanti/BinAC_varcalling/blob/main/3_4_GenDB_GenoGVCFs_BinAC.sh) <br/>
 Combine single-sample GVCF files in a multisample vcf file (actually files, one per scaffold). To avoid large datasets from causing RAM saturation, this step is parallelized by scaffold and is composed of two steps i) Importing all samples in a GenomicsDB ([GenomicsDBImport](https://gatk.broadinstitute.org/hc/en-us/articles/360036732771-GenomicsDBImport)) and ii) joint genotyping of all samples ([GenotypeGVCFs](https://gatk.broadinstitute.org/hc/en-us/articles/360036348452-GenotypeGVCFs)).
