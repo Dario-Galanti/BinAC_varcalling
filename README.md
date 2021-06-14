@@ -5,7 +5,6 @@ System setup: linux-based cluster with PBS queueing system.
 The workflow is meant for the analysis of paired-end short reads. Based on the GATK4 best practices [for germline short variant discovery](https://gatk.broadinstitute.org/hc/en-us/articles/360035535932-Germline-short-variant-discovery-SNPs-Indels-), is specifically customized for medium and large WGS datasets of non-model species. Hence, it can handle a large number of samples, large and highly fragmented genomes and the absence of previous variant datasets. <br/>
 It was developed for the analysis of ~200 Thlaspi arvense WGS samples.
 <br/> 
-<br/> 
 
 WORKFLOW DESCRIPTION:
 
@@ -28,7 +27,7 @@ Combine all single-scaffold vcf files in a unique multisample vcf file ([GatherV
 Samples filtering ([SelectVariants](https://gatk.broadinstitute.org/hc/en-us/articles/360040508071-SelectVariants)). This allows to run downsteam analysis with different sets of samples without repeating the variant calling.
 
 [7_filt_variants_BinAC.sh](https://github.com/Dario-Galanti/BinAC_varcalling/blob/main/7_filt_variants_BinAC.sh) <br/>
-Variants filtering in seferal steps: 1) remove low quality variants ([VariantFiltration](https://gatk.broadinstitute.org/hc/en-us/articles/360036350452-VariantFiltration)) using different paramenters for SNPs and other variants, 2) remove variants with missing genotypes in more than a user-defined proportion of samples ([VCFtools](https://vcftools.github.io/man_latest.html)), 3) remove multiallelic sites and filter for Minor Allele Frequency and 4) remove scaffolds harbouring less than 3 variants ([lonely_vcf_pos.sh](https://github.com/Dario-Galanti/BinAC_varcalling/blob/main/lonely_vcf_pos.sh)) as these cause problems during phasing and imputation.
+Variants filtering in several steps: 1) remove low quality variants ([VariantFiltration](https://gatk.broadinstitute.org/hc/en-us/articles/360036350452-VariantFiltration)) using different paramenters for SNPs and other variants, 2) remove variants with missing genotypes in more than a user-defined proportion of samples ([VCFtools](https://vcftools.github.io/man_latest.html)), 3) remove multiallelic sites and filter for Minor Allele Frequency and 4) remove scaffolds harbouring less than 3 variants ([lonely_vcf_pos.sh](https://github.com/Dario-Galanti/BinAC_varcalling/blob/main/lonely_vcf_pos.sh)) as these cause problems during phasing and imputation.
 
 
 
