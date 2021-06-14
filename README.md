@@ -3,7 +3,8 @@ Workflow for read mapping (bwa), variant calling (GATK4) and filtering from shor
 System setup: linux-based cluster with PBS queueing system.
 
 The workflow is meant for the analysis of paired-end short reads. Based on the GATK4 [best practices for germline short variant discovery](https://gatk.broadinstitute.org/hc/en-us/articles/360035535932-Germline-short-variant-discovery-SNPs-Indels-), is specifically customized for medium and large WGS datasets of non-model species. Hence, it can handle a large number of samples, large and highly fragmented genomes and the absence of previous variant sets.
-<br/> <br/>
+<br/> 
+<br/> 
 
 WORKFLOW DESCRIPTION:
 
