@@ -7,6 +7,11 @@
 ### Run: bash 2_HaploCaller_multi_BinAC.sh
 ### Dependencies: gatk4 v4.1.8.1
 
+### PRE-STEPS:
+### Make reference genome dictionary
+###	Dependencies: gatk4
+### ~/miniconda3/envs/bwa/bin/java -jar ~/miniconda3/envs/bwa/share/picard-2.23.6-0/picard.jar CreateSequenceDictionary -R final.fasta
+
 ## Define home dir (work), tools, input and output
 work=/beegfs/work/bbmdg01
 gatk=~/miniconda3/envs/bwa/bin/gatk
