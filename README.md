@@ -30,5 +30,6 @@ Samples filtering ([SelectVariants](https://gatk.broadinstitute.org/hc/en-us/art
 [7_filt_variants_BinAC.sh](https://github.com/Dario-Galanti/BinAC_varcalling/blob/main/7_filt_variants_BinAC.sh) <br/>
 Variants filtering in several steps: 1) remove low quality variants ([VariantFiltration](https://gatk.broadinstitute.org/hc/en-us/articles/360036350452-VariantFiltration)) using different paramenters for SNPs and other variants, 2) remove variants with missing genotypes in more than a user-defined proportion of samples ([VCFtools](https://vcftools.github.io/man_latest.html)), 3) remove multiallelic sites and filter for Minor Allele Frequency and 4) remove scaffolds harbouring less than 3 variants ([lonely_vcf_pos.sh](https://github.com/Dario-Galanti/BinAC_varcalling/blob/main/lonely_vcf_pos.sh)) as these cause problems during phasing and imputation.
 
-
+[vcf_impute_BinAC.sh](https://github.com/Dario-Galanti/BinAC_varcalling/blob/main/vcf_impute_BinAC.sh) <br/>
+Phasing and imputation of missing genotype calls with BEAGLE. In addition this script adds the reference genotype to the vcf file.
 
