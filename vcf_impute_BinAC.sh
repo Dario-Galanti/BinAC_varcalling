@@ -56,13 +56,12 @@ zcat $fout | awk -v Ref="$Ref" '{if(substr($1,1,2)=="##"){print}else if(substr($
 ## 3) SOLUTION: AFTER running plink we change all scaffold names in the map file with the following rationale:
 ## 3) SOLUTION: Scaffold_n --> n+7 (eg. Scaffold_1 --> 8) in order not to re-use Chr numbers
 
-zcat $vcf_withref | awk 'OFS="\t"{if(!/\#/){$3=$1"_"$2;print} else {gsub("_","-");print}}' > ${outDir}/temp_ready.vcf
-$plink --vcf ${outDir}/temp_ready.vcf --allow-extra-chr --recode --out $base_withref
-rm ${outDir}/temp_ready.vcf
-#$plink --file $base_withref --allow-extra-chr --make-bed --out $base_withref
-$plink --file $base_withref --allow-extra-chr --recode A --out $base_withref
-awk 'OFS="\t"{if ($1 ~ /^Scaffold/){gsub(/Scaffold_/,"",$1);$1=($1+7)};print}' ${base_withref}.map > ${outDir}/map_ready.map
-mv ${outDir}/map_ready.map ${base_withref}.map
+#zcat $vcf_withref | awk 'OFS="\t"{if(!/\#/){$3=$1"_"$2;print} else {gsub("_","-");print}}' > ${outDir}/temp_ready.vcf
+#$plink --vcf ${outDir}/temp_ready.vcf --allow-extra-chr --recode --out $base_withref
+#rm ${outDir}/temp_ready.vcf
+#$plink --file $base_withref --allow-extra-chr --recode A --out $base_withref
+#awk 'OFS="\t"{if ($1 ~ /^Scaffold/){gsub(/Scaffold_/,"",$1);$1=($1+7)};print}' ${base_withref}.map > ${outDir}/map_ready.map
+#mv ${outDir}/map_ready.map ${base_withref}.map
 
 ## OPTIONAL: Calculate IBD matrix for later use (pop structure correction)
 #$plink --file $base_withref --allow-extra-chr --distance square ibs flat-missing
