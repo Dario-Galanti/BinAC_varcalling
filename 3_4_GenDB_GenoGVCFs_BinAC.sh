@@ -36,14 +36,16 @@ mkdir -p ${work}/logs/GenDB_GenoGVCF
 ## Make intervals file (NB: Only calling SNPs for Scaffolds > 10kb !!!!!!!) and chromosome array
 ## Intervals: GenomicsDBImport requires intervals to run. See (https://gatk.broadinstitute.org/hc/en-us/articles/360035531852-Intervals-and-interval-lists)
 if [ ! -f $intervals ]; then awk 'OFS="\t"{if($2>10000){print $1,0,$2}}' $index > $intervals ;fi
-chr_arr=( $(cut -f1 $intervals) )
+chr_arr=($(cut -f1 $intervals))
 
 ## Make samples map file
 ls -d $inDir/*vcf.gz | awk '{OFS="\t"; print substr($0,27,23), $0}' > $samples
 
 for chr in ${chr_arr[*]};
 do
-	if [ $(echo $chr | cut -c1-3) = "Sca" ]			#Run only chromosomes so that scaffolds can be run with less memory
+	# NB: We run only a portion of the scaffolds as larger scaffolds require more memory allocation then the smaller ones
+	chr_num=$(echo $chr | grep -Eo '[0-9]{1,6}')
+	if [ $chr_num -ge 1 ] && [ $chr_num -le 7 ];		#Define range of scaffolds to run (includes range extremes). Larger scaffolds require more memory
 	then
 		jobName=${work}/work/GenDB_GenoGVCF/GATK4.${chr}
 		(
