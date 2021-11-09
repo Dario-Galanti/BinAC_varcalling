@@ -33,9 +33,6 @@ mkdir -p $outDir
 
 ## NB: PROBLEM: Scaffolds are not ordered correctly in the ref genome!!! So the input file list has to be retrieved from a vcf header and not directly from the file names
 ## PROBLEM: In addition I excluded scaffolds < 10kb long, so I also have to delete those from the list
-# Create input string in format -I chr1.vcf -I chr2.vcf ...
-#fin_str=$(ls ${inDir}/*_variants.vcf.gz | sort -V | sed ':a;N;$!ba;s/\n/ -I /g')
-#fin_str=$(zcat ${inDir}/Scaffold_4569_v3_Ta_variants.vcf.gz | grep 'contig=<ID' | awk -v inDir="${inDir}" -F'[=,]' '{print inDir"/"$3"_variants.vcf.gz"}' | sed ':a;N;$!ba;s/\n/ -I /g')
 used_scaff=( $(ls ${inDir}/*_variants.vcf.gz | sort -V ) )
 ordered_scaff=( $(zcat $(ls ${inDir}/*.vcf.gz | head -1) | grep 'contig=<ID' | awk -v inDir="${inDir}" -F'[=,]' '{print inDir"/"$3"_variants.vcf.gz"}') )
 
@@ -48,6 +45,7 @@ for i1 in "${ordered_scaff[@]}"; do
         fi
     done
 done
+# Create input string in format -I chr1.vcf -I chr2.vcf ...
 fin_str=$(printf "%s\n" "${fin_arr[@]}" | sed ':a;N;$!ba;s/\n/ -I /g')
 
 # It's a picard tool, I should probably use picard syntax
