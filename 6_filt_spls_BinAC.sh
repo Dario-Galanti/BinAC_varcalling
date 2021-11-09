@@ -12,36 +12,32 @@
 ### Author: Dario Galanti Jan 2021
 ### Documentation (Best practices workflow): https://gatk.broadinstitute.org/hc/en-us/articles/360035535932-Germline-short-variant-discovery-SNPs-Indels-
 ### Documentation (SelectVariants): https://gatk.broadinstitute.org/hc/en-us/articles/360036365752-SelectVariants#--exclude-sample-name
-### Run: qsub -q short 6_filt_spls_BinAC.sh
+### Run: qsub -q short -F "/beegfs/work/bbmdg01/GATK_v3_unfilt_VCF/Samples_to_keep.args" 6_filt_spls_BinAC.sh
 ### Dependencies: gatk4 v4.1.8.1
 
 ## First step of the filtering process. First we select relevant samples, in order to have a more accurate positions filtering.
 ## This allows to run downsteam analysis with different sets of samples without repeating the variant calling
 
-## Define input and output
+## ARGUMENT: Samples_to_keep.args --> File in simple text format with one sample name per line (eg. Bioinformatics/WGS_align_SNP_calling/Samples/GWAspls.args)
+
+## Define tools input and output
 work=/beegfs/work/bbmdg01
 gatk=~/miniconda3/envs/bwa/bin/gatk
 
+## Define input and output
+Spls_to_keep=$1					          # File in simple text format with samples to keep (one per line) and .args extention
 wDir=${work}/GATK_v3_unfilt_VCF
 fin=${wDir}/Ta_v3_vrts_unfilt.vcf.gz
-fout=${wDir}/Ta_v3_vrts_unfilt_GWAspls.vcf.gz
-delSPLS_file=${wDir}/spls_to_delete.args
-#tmp=${work}/tmp
-
-## SAMPLES TO DELETE: Here I only delete samples for which no information for any GWAS analysis is available (no WGBS, no CG_GH_2019, no CG_2020).
-delSPLS=(TA_AM_02_01_F3_CC0_M1_1 TA_AM_03_01_F3_CC0_M1_1 TA_AM_04_01_F3_CC0_M1_1 TA_AM_05_01_F3_CC0_M1_1 TA_AM_06_01_F3_CC0_M1_1 TA_AM_07_01_F3_CC0_M1_1 TA_DE_17_01_F3_CC0_M1_1 TA_DE_17_02_F3_CC0_M1_1 TA_DE_18_01_F3_CC0_M1_1 TA_DE_19_01_F3_CC0_M1_1 TA_FR_04_01_F3_CC0_M1_1)
-# store samples to delete to file
-for i in ${delSPLS[@]}; do echo $i >> $delSPLS_file ;done
+fout=${wDir}/Ta_v4_vrts_unfilt_$(basename $Spls_to_keep .args).vcf.gz
 
 # Index vcf and Filter samples
 ${gatk} IndexFeatureFile -I $fin
-${gatk} --java-options "-Xmx30g" SelectVariants -V $fin -O $fout -xl-sn $delSPLS_file --QUIET
+${gatk} --java-options "-Xmx30g" SelectVariants -V $fin -O $fout -sn $Spls_to_keep --QUIET
 
 ## Print summary
-fin_spls=$(zcat $fin | head -3000 | grep \#CHROM | cut -f10- | grep -o TA_ | wc -l)		#The "head" is just making it faster
-fout_spls=$(zcat $fout | head -3000 | grep \#CHROM | cut -f10- | grep -o TA_ | wc -l)		#The "head" is just making it faster
+fin_spls=$(zcat $fin | head -4000 | grep \#CHROM | cut -f10- | tr "\t" "\n" | wc -l)		#The "head" is just making it faster
+fout_spls=$(zcat $fout | head -4000 | grep \#CHROM | cut -f10- | tr "\t" "\n" | wc -l)		#The "head" is just making it faster
 
 echo $fin_spls samples were present in the original file. $fout_spls were kept in the filtered file
-
 
 
