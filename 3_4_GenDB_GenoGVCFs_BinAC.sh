@@ -66,7 +66,7 @@ do
 		## Run GATK4 GenomicsDBImport
 		echo "~/miniconda3/envs/bwa/bin/gatk --java-options \"-Xmx20g\" GenomicsDBImport --genomicsdb-workspace-path \${chr_DBDir} -L ${chr} --sample-name-map ${samples} --tmp-dir ${tmp} --reader-threads 4 --QUIET"
 		## Run GATK4 GenotypeGVCFs
-		echo "chr_fout=${outDir}/${chr}_v3_Ta_variants.vcf.gz"
+		echo "chr_fout=${outDir}/${chr}_variants.vcf.gz"
 		echo "${gatk} --java-options \"-Xmx20g\" GenotypeGVCFs -R ${genome} -V gendb://\${chr_DBDir} -O \${chr_fout} --tmp-dir ${tmp} --QUIET"
 		) > $jobName
 			chmod +x $jobName
