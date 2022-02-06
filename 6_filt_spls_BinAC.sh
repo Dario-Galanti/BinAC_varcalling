@@ -28,7 +28,7 @@ gatk=~/miniconda3/envs/bwa/bin/gatk
 Spls_to_keep=$1					          # File in simple text format with samples to keep (one per line) and .args extention
 wDir=${work}/GATK_v3_unfilt_VCF
 fin=${wDir}/Ta_v3_vrts_unfilt.vcf.gz
-fout=${wDir}/Ta_v4_vrts_unfilt_$(basename $Spls_to_keep .args).vcf.gz
+fout=${wDir}/Ta_v3_vrts_unfilt_$(basename $Spls_to_keep .args).vcf.gz
 
 # Index vcf and Filter samples
 ${gatk} IndexFeatureFile -I $fin
