@@ -33,3 +33,8 @@ Variants filtering in several steps: 1) remove low quality variants ([VariantFil
 [vcf_impute_BinAC.sh](https://github.com/Dario-Galanti/BinAC_varcalling/blob/main/vcf_impute_BinAC.sh) <br/>
 Phasing and imputation of missing genotype calls with BEAGLE. In addition this script adds the reference genotype to the vcf file.
 
+<br/>
+
+PUBLICATIONS: <br/>
+[Genetic and environmental drivers of large-scale epigenetic variation in Thlaspi arvense](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1010452)
+
